@@ -16,6 +16,10 @@ trap 'kill ${!}; term_handler' SIGINT SIGKILL SIGTERM SIGQUIT SIGTSTP SIGSTOP SI
 echo "starting ssh ..."
 sudo /etc/init.d/ssh start
 
+# start dbus deamon
+echo "starting dbus ..."
+/etc/init.d/dbus start
+
 # wait forever not to exit the container
 while true
 do
