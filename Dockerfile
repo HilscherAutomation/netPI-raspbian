@@ -14,7 +14,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 RUN [ "cross-build-start" ]
 
 #version
-ENV HILSCHERNETPI_RASPBIAN_VERSION 1.1.0
+ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.0
 
 #labeling
 LABEL maintainer="netpi@hilscher.com" \
@@ -24,9 +24,6 @@ LABEL maintainer="netpi@hilscher.com" \
 #environment variables
 ENV USER=pi
 ENV PASSWD=raspberry
-
-#copy files
-COPY "./init.d/*" /etc/init.d/
 
 RUN apt-get update \
  && apt-get install wget \
@@ -168,10 +165,16 @@ RUN apt-get update \
                 libsigc++-1.2-dev \
                 raspberrypi-kernel \
                 raspi-copies-and-fills \
+ && mkdir /etc/firmware \
+ && curl -o /etc/firmware/BCM43430A1.hcd -L https://github.com/OpenELEC/misc-firmware/raw/master/firmware/brcm/BCM43430A1.hcd \
+ && wget https://raw.githubusercontent.com/raspberrypi/firmware/1.20180417/opt/vc/bin/vcmailbox -O /opt/vc/bin/vcmailbox \
  && apt-get remove git \
  && apt-get autoremove \
  && rm -rf /tmp/* \
  && rm -rf /var/lib/apt/lists/*
+
+#copy files
+COPY "./init.d/*" /etc/init.d/
 
 #set the entrypoint
 ENTRYPOINT ["/etc/init.d/entrypoint.sh"]

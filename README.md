@@ -17,29 +17,46 @@ netPI features a restricted Docker protecting the system software's integrity by
 
 ### Container features 
 
-The image provided hereunder deploys a container with Debian, SSH server, Raspberry Pi userland tool and created user pi.
+The image provided hereunder deploys a container with Debian, SSH server, pre-compiled software/packages typically found installed on Raspbian OS (inclusive userland tools) and default user pi.
 
-Base of this image builds [debian](https://www.balena.io/docs/reference/base-images/base-images/) with enabled [SSH](https://en.wikipedia.org/wiki/Secure_Shell), created user 'pi' and preinstalled packages of a headless Raspbian lite.
+Base of this image builds [debian](https://www.balena.io/docs/reference/base-images/base-images/) with enabled [SSH](https://en.wikipedia.org/wiki/Secure_Shell), installed [userland](https://github.com/raspberrypi/userland) tools, created user 'pi' and preinstalled packages of a Raspbian lite operating system (headless).
 
 ### Container setup
 
-#### Port mapping
+#### Network mode
 
-For a SSH login to the container any unused netPI host port needs to be added to the container port `22` (SSH).
+The container supports bridged or host network mode. More details at [Container networking](https://docs.docker.com/v17.09/engine/userguide/networking/).
+
+##### Bridged
+
+Any unused netPI host port needs to be mapped to the container port `22` to expose the container SSH server to the host. 
+
+Remark: Container bluetooth communications are supported in host network mode only.
+
+##### Host
+
+Port mapping is unnecessary since all the used container ports (like 22) are exposed to the host automatically.
+
+Remark: Host network mode is mandatory for container bluetooth communications.
 
 #### Hostname (optional)
 
-For an equal standard Raspberry Pi condition set the container hostname to `raspberrypi`.
+For an equal default Raspbian OS hostname set the container hostname to `raspberrypi`.
 
 #### Privileged mode (optional)
 
-The privileged mode option needs to be activated to lift the standard Docker enforced container limitations. With this setting the container and the applications inside are the getting (almost) all capabilities as if running on the Host directly. 
+The privileged mode lifts the standard Docker enforced container limitations: applications inside a container are getting (almost) all capabilities as if running on the host directly.
 
-netPI's secure reference software architecture prohibits root access to the Host system always. Even if priviledged mode is activated the intrinsic security of the Host Linux Kernel can not be compromised.
+Enabling the privileged mode is optional but mandatory for the following container functions:
 
-#### Host device (optional)
+* bluetooth communications
+* using userland tools
 
-The container includes the [userland](https://github.com/raspberrypi/userland) tools installed with original Raspbian OS too. To grant access of tools like [vcmailbox](https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/vcmailbox/vcmailbox.c) the `/dev/vcio` and `/dev/vchiq` and `/dev/vc-mem` host devices need to be exposed to the container. (Prerequisite is running the container in privileged mode).
+#### Host devices (optional)
+
+For bluetooth communications the `/dev/ttyAMA0` host device needs to be added to the container. In conjunction the `/dev/vcio` host device needs be added to the container too to allow proper bluetooth controller resets. 
+
+For using userland tools like [vcmailbox](https://github.com/raspberrypi/userland/blob/master/host_applications/linux/apps/vcmailbox/vcmailbox.c) the `/dev/vcio` and `/dev/vchiq` and `/dev/vc-mem` host devices need to be added to the container.
 
 ### Container deployment
 
@@ -52,13 +69,15 @@ STEP 3. Enter the following parameters under *Containers > + Add Container*
 Parameter | Value | Remark
 :---------|:------ |:------
 *Image* | **hilschernetpi/netpi-raspbian**
+*Network > Network* | **bridge** or **host** | use alternatively
 *Network > Hostname* | **raspberrypi** | optional
-*Port mapping* | *host* **22** -> *container* **22** | *host*=any unused
+*Port mapping* | *host* **22** -> *container* **22** | *host*=any unused, bridged mode only
 *Restart policy* | **always**
-*Runtime > Devices > +add device* | *Host path* **/dev/vcio** -> *Container path* **/dev/vcio** | optional
-*Runtime > Devices > +add device* | *Host path* **/dev/vchiq** -> *Container path* **/dev/vchiq** | optional
-*Runtime > Devices > +add device* | *Host path* **/dev/vc-mem** -> *Container path* **/dev/vc-mem** | optional
-*Runtime > Privileged mode* | **On** | optional
+*Runtime > Devices > +add device* | *Host path* **/dev/ttyAMA0** -> *Container path* **/dev/ttyAMA0** | optional for bluetooth
+*Runtime > Devices > +add device* | *Host path* **/dev/vcio** -> *Container path* **/dev/vcio** | optional for bluetooth, userland tools
+*Runtime > Devices > +add device* | *Host path* **/dev/vchiq** -> *Container path* **/dev/vchiq** | optional for userland tools
+*Runtime > Devices > +add device* | *Host path* **/dev/vc-mem** -> *Container path* **/dev/vc-mem** | optional for userland tools
+*Runtime > Privileged mode* | **On** | optional for bluetooth, userland tools
 
 STEP 4. Press the button *Actions > Start/Deploy container*
 
@@ -66,7 +85,7 @@ Pulling the image may take a while (5-10mins). Sometimes it may take too long an
 
 ### Container access
 
-The container automatically starts the SSH server. For a SSH session use a SSH client such as [putty](http://www.putty.org/) with the netPI IP address (@mapped SSH host port number).
+The container automatically starts the SSH server. For a SSH terminal session use a SSH client such as [putty](http://www.putty.org/) with the netPI IP address (@mapped SSH host port number).
 
 Use the credentials `pi` as user and `raspberry` as password when asked and you are logged in as non-root user `pi`.
 
