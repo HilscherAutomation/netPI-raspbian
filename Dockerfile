@@ -1,5 +1,5 @@
 #use armv7hf compatible base image
-FROM balenalib/armv7hf-debian:buster
+FROM balenalib/armv7hf-debian:buster-20191223
 
 #dynamic build arguments coming from the /hook/build file
 ARG BUILD_DATE
@@ -14,7 +14,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 RUN [ "cross-build-start" ]
 
 #version
-ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.0
+ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.1
 
 #labeling
 LABEL maintainer="netpi@hilscher.com" \
