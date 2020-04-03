@@ -10,11 +10,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/HilscherAutomation/netPI-raspbian" \
       org.label-schema.vcs-ref=$VCS_REF
 
-#enable cross compiling (comment out next line if built on Raspberry Pi) 
-RUN [ "cross-build-start" ]
-
 #version
-ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.1
+ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.2
 
 #labeling
 LABEL maintainer="netpi@hilscher.com" \
@@ -185,5 +182,3 @@ EXPOSE 22
 #set STOPSGINAL
 STOPSIGNAL SIGTERM
 
-#disable cross compiling (comment out next line if built on Raspberry Pi) 
-RUN [ "cross-build-end" ]

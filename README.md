@@ -1,6 +1,5 @@
 ## Raspbian
 
-[![](https://images.microbadger.com/badges/image/hilschernetpi/netpi-raspbian.svg)](https://microbadger.com/images/hilschernetpi/netpi-raspbian "Raspbian")
 [![](https://images.microbadger.com/badges/commit/hilschernetpi/netpi-raspbian.svg)](https://microbadger.com/images/hilschernetpi//netpi-raspbian "Raspbian")
 [![Docker Registry](https://img.shields.io/docker/pulls/hilschernetpi/netpi-raspbian.svg)](https://registry.hub.docker.com/r/hilschernetpi/netpi-raspbian/)&nbsp;
 [![Image last updated](https://img.shields.io/badge/dynamic/json.svg?url=https://api.microbadger.com/v1/images/hilschernetpi/netpi-raspbian&label=Image%20last%20updated&query=$.LastUpdated&colorB=007ec6)](http://microbadger.com/images/hilschernetpi/netpi-raspbian "Image last updated")&nbsp;
@@ -98,12 +97,6 @@ Continue to use [Linux commands](https://www.raspberrypi.org/documentation/linux
 ### Container tips & tricks
 
 For additional help or information visit the Hilscher Forum at https://forum.hilscher.com/
-
-### Contaner automated build
-
-The project complies with the scripting based [Dockerfile](https://docs.docker.com/engine/reference/builder/) method to build the image output file. Using this method is a precondition for an [automated](https://docs.docker.com/docker-hub/builds/) web based build process on DockerHub platform.
-
-DockerHub web platform is x86 CPU based, but an ARM CPU coded output file is needed for Raspberry Pi systems. This is why the Dockerfile includes the [balena.io](https://balena.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/) steps.
 
 ### License
 
