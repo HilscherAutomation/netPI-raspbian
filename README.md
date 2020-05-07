@@ -8,7 +8,7 @@ Made for Raspberry Pi 3B architecture based devices and compatibles
 
 ### Container features 
 
-The image provided hereunder deploys a container with Debian, SSH server, pre-compiled software/packages typically found installed on Raspbian OS (inclusive userland tools) and a default user which is `pi`.
+The image provided hereunder deploys a Debian based container with SSH server, pre-compiled software/packages found installed on Raspbian OS (inclusive userland tools) and a default user which is `pi`.
 
 Base of this image builds [debian](https://www.balena.io/docs/reference/base-images/base-images/) with enabled [SSH](https://en.wikipedia.org/wiki/Secure_Shell), installed [userland](https://github.com/raspberrypi/userland) tools, created user 'pi' and preinstalled packages of a Raspbian lite operating system (headless).
 
@@ -84,11 +84,11 @@ STEP 3. Enter the following parameters under *Containers > + Add Container*
 
 Parameter | Value | Remark
 :---------|:------ |:------
-*Image* | **hilschernetpi/netpi-raspbian**
+*Image* | **hilschernetpi/netpi-raspbian** | a :tag may be added as well
 *Network > Network* | **bridge** or **host** | use either or
 *Network > Hostname* | **raspberrypi** | optional
 *Restart policy* | **always**
-*Runtime > Env* | *name* **SSHPORT** -> *value* **port number** | optional for different SSH port
+*Runtime > Env* | *name* **SSHPORT** -> *value* **any number value** | optional for different SSH port
 *Port mapping* | *host* **unused port** -> *container* **22** / **SSHPORT** | in bridged mode only
 *Runtime > Devices > +add device* | *Host path* **/dev/ttyAMA0** -> *Container path* **/dev/ttyAMA0** | optional for bluetooth
 *Runtime > Devices > +add device* | *Host path* **/dev/vcio** -> *Container path* **/dev/vcio** | optional for bluetooth, userland tools
@@ -100,7 +100,7 @@ STEP 4. Press the button *Actions > Start/Deploy container*
 
 #### Docker command line example
 
-`docker run -d --privileged --network=host --restart=always -e SSHPORT=22 --device=/dev/ttyAMA0:/dev/ttyAMA0 --device=/dev/vcio:/dev/vcio --device=/dev/vchiq:/dev/vchiq --device=/dev/vc-mem:/dev/vc-mem -p 22:22/tcp hilschernetpi/netpi-raspbian
+`docker run -d --privileged --network=host --restart=always -e SSHPORT=22 --device=/dev/ttyAMA0:/dev/ttyAMA0 --device=/dev/vcio:/dev/vcio --device=/dev/vchiq:/dev/vchiq --device=/dev/vc-mem:/dev/vc-mem -p 22:22/tcp hilschernetpi/netpi-raspbian`
 
 #### Docker compose example
 
