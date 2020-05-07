@@ -24,7 +24,17 @@ term_handler() {
 # on callback, stop all started processes in term_handler
 trap 'kill ${!}; term_handler' SIGINT SIGKILL SIGTERM SIGQUIT SIGTSTP SIGSTOP SIGHUP
 
-echo "starting ssh ..."
+echo "starting SSH server ..."
+if [ "SSHPORT" ]; then
+  #there is an alternative SSH port configured
+  echo "the container binds the SSH server port to the configured port $SSHPORT"
+  sed -i -e "s;#Port 22;Port $SSHPORT;" /etc/ssh/sshd_config
+else
+  echo "the container binds the SSH server port to the default port 22"
+fi
+
+echo "note: in bridged network mode the container SSH port maps to the Docker host according your port mapping setup" 
+
 sudo /etc/init.d/ssh start
 
 # start dbus deamon
@@ -41,7 +51,7 @@ if [[ -n `grep "docker0" /proc/net/dev` ]]; then
     #container running in privileged mode
     if [[ -e "/dev/ttyAMA0" ]]; then 
       #bluetooth can be supported
-
+      echo "info: detected hardware setup allows using bluetooth functions in the container"
       if [[ -e "/dev/vcio" ]]; then
         #reset BCM chip possible
         /opt/vc/bin/vcmailbox 0x38041 8 8 128 0 >/dev/null
@@ -51,7 +61,7 @@ if [[ -n `grep "docker0" /proc/net/dev` ]]; then
       fi
 
       #load firmware to BCM chip and attach to hci0
-      hciattach /dev/ttyAMA0 bcm43xx 921600 noflow
+      hciattach /dev/ttyAMA0 bcm43xx 115200 noflow
 
       #create hci0 device
       hciconfig hci0 up

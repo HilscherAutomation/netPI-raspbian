@@ -31,7 +31,6 @@ RUN apt-get update \
  && apt-get update  \
  && apt-get install -y openssh-server \
  && mkdir /var/run/sshd \
-# && sed -i -e 's;#Port 22;Port 23;' /etc/ssh/sshd_config \ #Comment in if SSH port other than 22 is needed (22->23)
  && sed -i 's@#force_color_prompt=yes@force_color_prompt=yes@g' -i /etc/skel/.bashrc \
  && useradd --create-home --shell /bin/bash pi \
  && echo $USER:$PASSWD | chpasswd \
