@@ -11,7 +11,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF
 
 #version
-ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.3
+ENV HILSCHERNETPI_RASPBIAN_VERSION 1.2.4
 
 #labeling
 LABEL maintainer="netpi@hilscher.com" \
@@ -164,6 +164,7 @@ RUN apt-get update \
  && mkdir /etc/firmware \
  && curl -o /etc/firmware/BCM43430A1.hcd -L https://github.com/OpenELEC/misc-firmware/raw/master/firmware/brcm/BCM43430A1.hcd \
  && wget https://raw.githubusercontent.com/raspberrypi/firmware/1.20180417/opt/vc/bin/vcmailbox -O /opt/vc/bin/vcmailbox \
+ && sudo sed -i 's@debian@Raspbian@g' -i /usr/lib/os-release \
  && apt-get remove git \
  && apt-get autoremove \
  && rm -rf /tmp/* \

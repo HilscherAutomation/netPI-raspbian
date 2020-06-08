@@ -25,7 +25,7 @@ term_handler() {
 trap 'kill ${!}; term_handler' SIGINT SIGKILL SIGTERM SIGQUIT SIGTSTP SIGSTOP SIGHUP
 
 echo "starting SSH server ..."
-if [ "SSHPORT" ]; then
+if [ "$SSHPORT" ]; then
   #there is an alternative SSH port configured
   echo "the container binds the SSH server port to the configured port $SSHPORT"
   sed -i -e "s;#Port 22;Port $SSHPORT;" /etc/ssh/sshd_config
