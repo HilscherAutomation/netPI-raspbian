@@ -1,6 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
 
-echo "Build hook is running"
+echo "🔵 build"
+
+echo "[---] DOCKERFILE_PATH: ${DOCKERFILE_PATH}"
+echo "[---] DOCKER_REPO: ${DOCKER_REPO}"
+echo "[---] DOCKER_TAG: ${DOCKER_TAG}"
+echo "[---] IMAGE_NAME: ${IMAGE_NAME}"
+echo "[---] SOURCE_BRANCH: ${SOURCE_BRANCH}"
+echo "[---] SOURCE_COMMIT: ${SOURCE_COMMIT}"
+echo "[---] COMMIT_MSG: ${COMMIT_MSG}"
+
+docker -v
+
+echo "✅ buildin"
+  echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+
 docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
              --build-arg VCS_REF=`git rev-parse --short HEAD` \
-             -t $IMAGE_NAME .
+             -f Dockerfile.arm32v7 -t $IMAGE_NAME-arm32v7 .
+
+docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+             --build-arg VCS_REF=`git rev-parse --short HEAD` \
+             -f Dockerfile.arm64v8 -t $IMAGE_NAME-arm64v8 .
+
+
+echo "✅ images built:"
+echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+docker image ls
+

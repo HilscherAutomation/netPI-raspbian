@@ -1,0 +1,12 @@
+image: hilschernetpi/netpi-raspbian:latest
+manifests:
+  - image: hilschernetpi/netpi-raspbian:latest-arm32v7
+    platform:
+      architecture: arm
+      os: linux
+      variant: v7
+  - image: hilschernetpi/netpi-raspbian:latest-arm64v8
+    platform:
+      architecture: arm64
+      os: linux
+      variant: v8

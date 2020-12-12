@@ -1,9 +1,12 @@
 #use armv7hf compatible base image
-FROM balenalib/armv7hf-debian:buster-20191223
+FROM balenalib/aarch64-debian:buster-20191223
 
 #dynamic build arguments coming from the /hook/build file
 ARG BUILD_DATE
 ARG VCS_REF
+
+# see hooks/post_checkout
+ARG ARCH
 
 #metadata labels
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -133,7 +136,7 @@ RUN apt-get update \
                 xauth \
                 xdg-user-dirs \
                 xxd \
-                zlib1g-dev:armhf \
+                zlib1g-dev:arm64 \
                 ethtool \
                 geoip-database \
                 libalgorithm-diff-perl \
@@ -158,12 +161,10 @@ RUN apt-get update \
                 libraspberrypi-bin \
                 libraspberrypi-dev \
                 libraspberrypi-doc \
-                libsigc++-1.2-dev \
+                libsigc++-2.0-dev \
                 raspberrypi-kernel \
-                raspi-copies-and-fills \
  && mkdir /etc/firmware \
- && curl -o /etc/firmware/BCM43430A1.hcd -L https://github.com/OpenELEC/misc-firmware/raw/master/firmware/brcm/BCM43430A1.hcd \
- && wget https://raw.githubusercontent.com/raspberrypi/firmware/1.20180417/opt/vc/bin/vcmailbox -O /opt/vc/bin/vcmailbox \
+ && curl -o /lib/firmware/BCM4345C0.hcd -L https://github.com/RPi-Distro/bluez-firmware/blob/master/broadcom/BCM4345C0.hcd \
  && sudo sed -i 's@debian@Raspbian@g' -i /usr/lib/os-release \
  && apt-get remove git \
  && apt-get autoremove \
