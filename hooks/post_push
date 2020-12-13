@@ -1,14 +1,55 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 set -eu
 
-echo "🔵post push"
+echo "🔵post_push"
 
+echo "✅Manifesting"
+  echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
-# Use manifest-tool to create the manifest, given the experimental
-# "docker manifest" command isn't available yet on Docker Hub.
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
-curl -Lo manifest-tool https://github.com/estesp/manifest-tool/releases/download/v0.9.0/manifest-tool-linux-amd64
-chmod +x manifest-tool
+manifests=""
 
-./manifest-tool push from-spec hooks/multi-arch-manifest.yaml
+for FILE in ${DOCKERFILE_PATH%.*}.*
+do
+    TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
+    manifests="${manifests} ${IMAGE_NAME}-${TARGET_ARCH}"
+done
 
+docker manifest create ${IMAGE_NAME} $manifests
+
+for FILE in ${DOCKERFILE_PATH%.*}.*
+do
+    TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
+
+    case "$TARGET_ARCH" in
+        *arm32v5)
+            ARCH="arm"
+            ARCH_VARIANT="v5"
+            ;;
+        *arm32v6)
+            ARCH="arm"
+            ARCH_VARIANT="v6"
+            ;;
+        *arm32v7)
+            ARCH=arm
+            ARCH_VARIANT="v7"
+            ;;
+        *arm64v8)
+            ARCH=arm64
+            ARCH_VARIANT="v8"
+            ;;
+        *)
+           echo "Unknown target architecture ${TARGET_ARCH}"
+           exit 0   
+           ;;
+    esac
+
+    docker manifest annotate ${IMAGE_NAME} ${IMAGE_NAME}-${TARGET_ARCH} --os linux --arch ${ARCH} --variant ${ARCH_VARIANT}
+
+done
+
+docker manifest inspect --verbose ${IMAGE_NAME}
+
+docker manifest push --purge "${IMAGE_NAME}"

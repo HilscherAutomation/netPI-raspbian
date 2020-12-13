@@ -3,7 +3,7 @@ set -eu
 
 echo "🔵 pre_build"
 
-echo "✅ Register qemu-*-static for all supported processors except current"
+echo "✅ Register qemu-*-static for all supported processort"
 echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
 docker run --rm --privileged multiarch/qemu-user-static:register --reset

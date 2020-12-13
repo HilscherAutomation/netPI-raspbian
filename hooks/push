@@ -5,7 +5,14 @@ echo "🔵 push"
 
 echo "✅ Pushingimages}"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
-  docker push ${IMAGE_NAME}-arm32v7
-  docker push ${IMAGE_NAME}-arm64v8
+
+
+for FILE in ${DOCKERFILE_PATH%.*}.*
+do
+    TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
+
+    docker push ${IMAGE_NAME}-${TARGET_ARCH}
+
+done
 
 
