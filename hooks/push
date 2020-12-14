@@ -6,10 +6,6 @@ echo "🔵 push"
 echo "✅ Pushin images"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
-curl -Lo manifest-tool https://github.com/estesp/manifest-tool/releases/download/v0.9.0/manifest-tool-linux-amd64
-chmod +x manifest-tool
-
-
 for FILE in ${DOCKERFILE_PATH%.*}.*
 do
     TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
@@ -34,8 +30,6 @@ do
     esac
 
     docker push ${IMAGE_NAME}-${TARGET_ARCH}
-
-    ./manifest-tool push from-args --platforms ${PLATFORMS} --template ${IMAGE_NAME}-${TARGET_ARCH} --target ${IMAGE_NAME}-${TARGET_ARCH}
 
 done
 
