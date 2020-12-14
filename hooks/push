@@ -31,6 +31,9 @@ do
            echo "Unknown target architecture ${TARGET_ARCH}"
            exit 0
            ;;
+    esac
+
+    docker push ${IMAGE_NAME}-${TARGET_ARCH}
 
     ./manifest-tool push from-args --platforms ${PLATFORMS} --template ${IMAGE_NAME}-${TARGET_ARCH} --target ${IMAGE_NAME}-${TARGET_ARCH}
 
