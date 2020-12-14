@@ -14,6 +14,9 @@ manifests=""
 for FILE in ${DOCKERFILE_PATH%.*}.*
 do
     TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
+
+    echo $TARGET_ARCH
+
     manifests="${manifests} ${IMAGE_NAME}-${TARGET_ARCH}"
 done
 

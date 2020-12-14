@@ -3,16 +3,38 @@ set -eu
 
 echo "🔵 push"
 
-echo "✅ Pushingimages}"
+echo "✅ Pushin images"
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+
+curl -Lo manifest-tool https://github.com/estesp/manifest-tool/releases/download/v0.9.0/manifest-tool-linux-amd64
+chmod +x manifest-tool
 
 
 for FILE in ${DOCKERFILE_PATH%.*}.*
 do
     TARGET_ARCH=$(echo "${FILE}" | cut -d '.' -f 2)
 
-    docker push ${IMAGE_NAME}-${TARGET_ARCH}
+    case "$TARGET_ARCH" in
+        *arm32v5)
+            PLATFORMS="linux/arm"
+            ;;
+        *arm32v6)
+            PLATFORMS="linux/arm"
+            ;;
+        *arm32v7)
+            PLATFORMS="linux/arm"
+            ;;
+        *arm64v8)
+            PLATFORMS="linux/arm64"
+            ;;
+        *)
+           echo "Unknown target architecture ${TARGET_ARCH}"
+           exit 0
+           ;;
+
+    ./manifest-tool push from-args --platforms ${PLATFORMS} --template ${IMAGE_NAME}-${TARGET_ARCH} --target ${IMAGE_NAME}-${TARGET_ARCH}
 
 done
+
 
 

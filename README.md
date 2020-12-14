@@ -21,6 +21,7 @@ The container has been successfully tested on the following hosts
 * netPI, model CORE 3, product name NIOT-E-NPI3-EN
 * netFIELD Connect, product name NIOT-E-TPI51-EN-RE/NFLD
 * Raspberry Pi, model 3B
+* Raspberry Pi, model 4B (arm32v7,arm64v8)
 
 netPI devices specifically feature a restricted Docker protecting the Docker host system software's integrity by maximum. The restrictions are
 
