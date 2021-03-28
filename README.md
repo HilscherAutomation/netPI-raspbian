@@ -1,11 +1,10 @@
 ## Raspbian
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![](https://images.microbadger.com/badges/commit/hilschernetpi/netpi-raspbian.svg)](https://microbadger.com/images/hilschernetpi//netpi-raspbian "Raspbian")
-[![Docker Registry](https://img.shields.io/docker/pulls/hilschernetpi/netpi-raspbian.svg)](https://registry.hub.docker.com/r/hilschernetpi/netpi-raspbian/)&nbsp;
-[![Image last updated](https://img.shields.io/badge/dynamic/json.svg?url=https://api.microbadger.com/v1/images/hilschernetpi/netpi-raspbian&label=Image%20last%20updated&query=$.LastUpdated&colorB=007ec6)](http://microbadger.com/images/hilschernetpi/netpi-raspbian "Image last updated")&nbsp;
-
 Made for Raspberry Pi 3B architecture based devices and compatibles
+
+### Docker repository
+
+https://hub.docker.com/r/hilschernetpi/netpi-raspbian/
 
 ### Container features 
 
@@ -90,13 +89,13 @@ Parameter | Value | Remark
 *Network > Network* | **bridge** or **host** | use either or
 *Network > Hostname* | **raspberrypi** | optional
 *Restart policy* | **always**
-*Runtime > Env* | *name* **SSHPORT** -> *value* **any number value** | optional for different SSH port
+*Adv.con.set. > Env > +add env.var.* | *name* **SSHPORT** -> *value* **any number value** | optional for different SSH port
 *Port mapping* | *host* **unused port** -> *container* **22** / **SSHPORT** | in bridged mode only
-*Runtime > Devices > +add device* | *Host path* **/dev/ttyAMA0** -> *Container path* **/dev/ttyAMA0** | optional for bluetooth
-*Runtime > Devices > +add device* | *Host path* **/dev/vcio** -> *Container path* **/dev/vcio** | optional for bluetooth, userland tools
-*Runtime > Devices > +add device* | *Host path* **/dev/vchiq** -> *Container path* **/dev/vchiq** | optional for userland tools
-*Runtime > Devices > +add device* | *Host path* **/dev/vc-mem** -> *Container path* **/dev/vc-mem** | optional for userland tools
-*Runtime > Privileged mode* | **On** | optional for bluetooth, userland tools
+*Adv.con.set. > Devices > +add device* | *Host path* **/dev/ttyAMA0** -> *Container path* **/dev/ttyAMA0** | optional for bluetooth
+*Adv.con.set. > Devices > +add device* | *Host path* **/dev/vcio** -> *Container path* **/dev/vcio** | optional for bluetooth, userland tools
+*Adv.con.set. > Devices > +add device* | *Host path* **/dev/vchiq** -> *Container path* **/dev/vchiq** | optional for userland tools
+*Adv.con.set. > Devices > +add device* | *Host path* **/dev/vc-mem** -> *Container path* **/dev/vc-mem** | optional for userland tools
+*Adv.con.set. > Privileged mode* | **On** | optional for bluetooth, userland tools
 
 STEP 4. Press the button *Actions > Start/Deploy container*
 
